@@ -1,31 +1,30 @@
 #include "main.h"
 
 /**
- *prime - check for prime numbers
+ *square - square conditions
  *@i: integer
- *@n:integer
+ *@n: integer
  *
- *Return: integer
+ *Return: square of number
  */
 
-int prime(int i, int n)
+int square(int i, int n)
 {
-if (n < 2 || !(n % i))
-return (0);
+if (i * i == n)
+return (i);
 else if (i > n / 2)
-return (1);
+return (-1);
 else
-return (prime(i + 1, n));
+return (square(i + 1, n));
 }
 
 /**
- *is_prime_number - check for prime numbers
+ *_sqrt_recursion - square integer
  *@n: integer
  *
- *Return: integer
+ *Return: square of number
  */
-
-int is_prime_number(int n)
+int _sqrt_recursion(int n)
 {
-return (prime(2, n));
+return (square(1, n));
 }
