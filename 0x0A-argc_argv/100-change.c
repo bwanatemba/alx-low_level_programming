@@ -2,33 +2,58 @@
 #include <stdlib.h>
 
 /**
- * main - Prints the addition of positive numbers,
- *        followed by a new line.
- * @argc: The number of arguments passed to the program.
- * @argv: An array of pointers to the arguments.
- *
- * Return: If one of the numbers contains symbols that are non-digits - 1.
- *         Otherwise - 0.
+ * isInteger - checks if s is an integer
+ * @s: string to check
+ * Return: 0 or 1
  */
-int main(int argc, char *argv[])
-{
-	int num, digit, sum = 0;
 
-	for (num = 1; num < argc; num++)
+int isInteger(const char *s)
+{
+	int i = 0;
+
+
+	while (s[i] != '\0')
 	{
-		for (digit = 0; argv[num][digit]; digit++)
+		if (s[i] < '0' || s[i] > '9')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/**
+ * main - adds positive numbers
+ * @argc: int
+ * @argv: list
+ * Return: 0
+ */
+
+int main(int argc, char const *argv[])
+{
+	int i = 0, coinUsed = 0, coin = 0;
+	int coins[] = {25, 10, 5, 2, 1};
+
+	if (argc != 2)
+	{
+		printf("Error\n");
+		return (1);
+	}
+	if (isInteger(argv[1]))
+	{
+		i = atoi(argv[1]);
+		while (i > 0 && coin <= 4)
 		{
-			if (argv[num][digit] < '0' || argv[num][digit] > '9')
+			if (i >= coins[coin])
 			{
-				printf("Error\n");
-				return (1);
+				i -= coins[coin];
+				coinUsed++;
+			}
+			else
+			{
+				coin++;
 			}
 		}
-
-		sum += atoi(argv[num]);
 	}
-
-	printf("%d\n", sum);
-
+	printf("%i\n", coinUsed);
 	return (0);
 }
