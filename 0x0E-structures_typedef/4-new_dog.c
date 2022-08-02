@@ -1,75 +1,76 @@
 #include "dog.h"
-#include <stdlib.h>
 
 /**
- *_strdup - duplicate a string
- *@str: string
+ * _strdup - create a new array containing a copy of the given string
+ * @str: a pointer to the string to copy
  *
- *Return: pointer to newely allocated space in memory
+ * Return: NULL if str is NULL or if memory allocation fails,
+ * otherwise a return a pointer to the new copy
  */
 char *_strdup(char *str)
 {
-char *str1;
-int i, j;
+	char *dup;
+	unsigned int size = 0;
 
-if (str == NULL)
-{
-return (NULL);
-}
-for (i = 0; str[i]; i++)
-{
-;
-}
-i++;
-str1 = malloc(sizeof(char) * i);
+	if (str)
+	{
+		while (str[size++])
+			;
 
-if (str1 == NULL)
-{
-return (NULL);
-}
-for (j = 0; j < i; j++)
-str1[j] = str[j];
+		dup = malloc(sizeof(char) * size);
+		if (dup)
+		{
+			while (size--)
+				dup[size] = str[size];
 
-return (str1);
+			return (dup);
+		}
+	}
+	return (NULL);
 }
 
 /**
- *new_dog - structure
- *@name: array of character
- *@age: floate
- *@owner: array of character
+ * new_dog - create a new dog
+ * @name: the new dog's name
+ * @age: the new dog's age
+ * @owner: the new dog's owner
  *
- *Return: string
+ * Return: a pointer to the new dog, or NULL if memory allocation fails
  */
-
 dog_t *new_dog(char *name, float age, char *owner)
 {
-dog_t *new_dog;
+	dog_t *d;
 
-if (name == '\0' || owner == '\0')
-return (NULL);
+	d = malloc(sizeof(dog_t));
+	if (!d)
+		return (NULL);
 
-new_dog = malloc(sizeof(dog_t));
+	if (name)
+	{
+		d->name = _strdup(name);
+		if (!(d->name))
+		{
+			free(d);
+			return (NULL);
+		}
+	}
+	else
+		d->name = NULL;
 
-if (new_dog == NULL)
-return (NULL);
+	d->age = age;
 
-new_dog->name = _strdup(name);
-if (new_dog->name == NULL)
-{
-free(new_dog);
-return (NULL);
-}
+	if (owner)
+	{
+		d->owner = _strdup(owner);
+		if (!(d->owner))
+		{
+			free(d->name);
+			free(d);
+			return (NULL);
+		}
+	}
+	else
+		d->owner = NULL;
 
-new_dog->age = age;
-
-new_dog->owner = _strdup(owner);
-if (new_dog->owner == NULL)
-{
-free(new_dog->name);
-free(new_dog);
-return (NULL);
-}
-
-return (new_dog);
+	return (d);
 }
