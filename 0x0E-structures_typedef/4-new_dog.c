@@ -1,75 +1,48 @@
-#include "dog.h"
 #include <stdlib.h>
-
+#include "dog.h"
 /**
- *_strdup - duplicate a string
- *@str: string
- *
- *Return: pointer to newely allocated space in memory
- */
-char *_strdup(char *str)
-{
-char *str1;
-int i, j;
-
-if (str == NULL)
-{
-return (NULL);
-}
-for (i = 0; str[i]; i++)
-{
-;
-}
-i++;
-str1 = malloc(sizeof(char) * i);
-
-if (str1 == NULL)
-{
-return (NULL);
-}
-for (j = 0; j < i; j++)
-str1[j] = str[j];
-
-return (str1);
-}
-
-/**
- *new_dog - structure
- *@name: array of character
- *@age: floate
- *@owner: array of character
- *
- *Return: string
- */
+* new_dog - makes a new struct dog
+* @name: his/her name
+* @age: how old is he
+* @owner: who are you
+* Return: new dog
+*/
 
 dog_t *new_dog(char *name, float age, char *owner)
 {
-dog_t *new_dog;
+unsigned int i, namel, ownerl;
+dog_t *dog;
 
-if (name == '\0' || owner == '\0')
+if (name == NULL || owner == NULL)
 return (NULL);
-
-new_dog = malloc(sizeof(dog_t));
-
-if (new_dog == NULL)
+dog = malloc(sizeof(dog_t));
+if (dog == NULL)
 return (NULL);
-
-new_dog->name = _strdup(name);
-if (new_dog->name == NULL)
+for (namel = 0; name[namel]; namel++)
+;
+namel++;
+dog->name = malloc(namel * (sizeof(char)));
+if (dog->name == NULL)
 {
-free(new_dog);
+free(dog);
 return (NULL);
 }
+for (i = 0; i < namel; i++)
+dog->name[i] = name[i];
 
-new_dog->age = age;
+dog->age = age;
 
-new_dog->owner = _strdup(owner);
-if (new_dog->owner == NULL)
+for (ownerl = 0; owner[ownerl]; ownerl++)
+;
+ownerl++;
+dog->owner = malloc(ownerl * (sizeof(char)));
+if (dog->owner == NULL)
 {
-free(new_dog->name);
-free(new_dog);
+free(dog->name);
+free(dog);
 return (NULL);
 }
-
-return (new_dog);
+for (i = 0; i < ownerl; i++)
+dog->owner[i] = owner[i];
+return (dog);
 }
